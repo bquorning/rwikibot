@@ -161,11 +161,7 @@ end
 # I'm never happy with good enough, and when it comes to my hashes, I like to see the members of it. So I changed the hash to_s. Overriding method makes me happy.  
 class Hash
   def to_s
-    out = "{"
-    self.each do |key, value|
-      out += "#{key} => #{value},"
-    end
-    out = out.chop
-    out += "}"
+    elements = self.collect{ |key, value| "#{key} => #{value}" }
+    "{#{elements * ', '}}"
   end
 end
