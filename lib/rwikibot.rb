@@ -98,11 +98,11 @@ class RWikiBot
   # list of pages in with the normalized title and page ID, suitable for usage
   # elsewhere. Accepts all parameters from the API in Hash form. Default is
   # namespace => 0, which is just plain pages. Nothing 'special'.
-  def all_pages(options = nil)
+  def all_pages(options = {})
     raise VersionTooLowError unless meets_version_requirement(1,9) 
     # This will get all pages. Limits vary based on user rights of the Bot. Set to bot.
     post_me = {'list' => 'allpages', 'apnamespace' => '0', 'aplimit' => '5000'}
-    post_me.merge!(options) if options
+    post_me.merge!(options)
     allpages_result = make_request('query', post_me)
     allpages_result.fetch('allpages')['p']
   end
@@ -111,29 +111,29 @@ class RWikiBot
   # is really onlu useful if you want the bot to watch a specific list of
   # pages, and would require the bot maintainer to login to the wiki as the
   # bot to set the watchlist.
-  def watchlist(options=nil)
+  def watchlist(options = {})
     raise VersionTooLowError unless meets_version_requirement(1,10)
     raise NotLoggedInError unless logged_in?
     post_me = {'list'=>'watchlist'}
-    post_me.merge!(options) if options
+    post_me.merge!(options)
     make_request('query', post_me).fetch('watchlist').fetch('item')
   end
 
   # This method will return Wiki-wide recent changes, almost as if looking at the Special page Recent Changes. But, in this format, a bot can handle it. Also we're using the API. And bots can't read.
-  def recent_changes(options=nil)
+  def recent_changes(options = {})
     raise VersionTooLowError unless meets_version_requirement(1,10)
     post_me = {"list" => "recentchanges", 'rclimit' => '5000'}
-    post_me.merge!(options) if options
+    post_me.merge!(options)
     make_request('query' , post_me).fetch('recentchanges').fetch('rc')
   end
 
   # This will reutrn a list of the most recent log events. Useful for bots who
   # want to validate log events, or even just a notify bot that checks for
   # events and sends them off.
-  def log_events(options=nil)
+  def log_events(options = {})
     raise VersionTooLowError unless meets_version_requirement(1,11)
     post_me = {"list" => "logevents"}
-    post_me.merge!(options) if options
+    post_me.merge!(options)
     make_request('query', post_me).fetch('logevents').fetch('item')
   end
 

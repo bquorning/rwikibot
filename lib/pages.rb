@@ -36,10 +36,10 @@ module Pages
     # This will get only the content of the article. It is a modification of
     # revisions to specifically pull the content. I thought it would be
     # useful.
-    def content(options=nil)
+    def content(options = {})
       post_me = {'prop' => 'revisions', 'titles' => @title, 'rvprop' => 'content'}
 
-      post_me.merge!(options) if options
+      post_me.merge!(options)
 
       revisions_result = @bot.make_request('query', post_me )
       revisions_result.fetch('pages').fetch('page').fetch('revisions').fetch('rev')
@@ -63,12 +63,12 @@ module Pages
 
     # This method fetches any article that links to the article given in
     # 'title'. Returned in alphabetical order.
-    def backlinks (titles, options = nil)
+    def backlinks (titles, options = {})
       raise VersionTooLowError unless meets_version_requirement(1,9)
 
       post_me = {'list' => 'backlinks', 'titles' => "#{title}" }
 
-      post_me.merge!(options) if options
+      post_me.merge!(options)
 
       backlinks_result = make_request('query', post_me)
 
@@ -80,13 +80,13 @@ module Pages
     # This method pulls any page that includes the template requested. Please
     # note - the template must be the full name, like "Template:Disputed" or
     # "Template:Awesome".
-    def embedded_in(options=nil)
+    def embedded_in(options = {})
       raise VersionTooLowError unless @bot.meets_version_requirement(1,9)
 
       # This will get all pages. Limits vary based on user rights of the Bot. Set to bot.
       post_me = {'list' => 'embeddedin', 'eititle' => @title }
 
-      post_me.merge!(options) if options
+      post_me.merge!(options)
 
       embeddedin_result = @bot.make_request('query', post_me)
       embeddedin_result.fetch('embeddedin').fetch('ei')
@@ -163,7 +163,7 @@ module Pages
     # This method is used to edit pages. Not much more to say about it. Be
     # sure you're logged in and got a token (get_token). Options is an array
     # (or hash) of extra values allowed by the API.
-    def save(content, summary=nil, options=nil)
+    def save(content, summary=nil, options = {})
       raise RWBErrors::VersionTooLowError unless @bot.meets_version_requirement(1,13)
       raise RWBErrors::NotLoggedInError unless @bot.logged_in?
 
@@ -175,7 +175,7 @@ module Pages
         'edittime' => Time.now.strftime("%Y%m%d%H%M%S") ,
       }
 
-      post_me.merge!(options) if options
+      post_me.merge!(options)
 
       @bot.make_request('edit', post_me).fetch('result')
     end
