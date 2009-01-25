@@ -2,9 +2,9 @@ module RWBUtilities
 
 
   def meets_version_requirement(maj, min)
-    major, minor = @config['api_version'].to_s.split('.')
+    major, minor = @config['api_version'].to_s.split('.').collect{ |s| s.to_i }
 #    puts "#{major} > #{maj}"
-    if ( major.to_i > maj.to_i ) || ( (major.to_i == maj.to_i) && (minor.to_i >= min.to_i) )
+    if ( major > maj ) || ( (major == maj) && (minor >= min) )
       return true
     else 
       return false
