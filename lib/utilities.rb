@@ -50,7 +50,7 @@ module RWBUtilities
   # - maybe yout bot is only compatible with MediaWiki 1.9.0 depending on what methods you
   # use. I like it, anwyay.
   def version
-    site_info.fetch('generator').split(' ')[1]
+    site_info.fetch('generator').split[1]
   end
 
   # Make Request is a method that actually handles making the request to the API. Since the
