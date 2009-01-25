@@ -163,7 +163,7 @@ module Pages
     # This method is used to edit pages. Not much more to say about it. Be
     # sure you're logged in and got a token (get_token). Options is an array
     # (or hash) of extra values allowed by the API.
-    def save(content, summary=nil, options = {})
+    def save(content, summary = '', options = {})
       raise RWBErrors::VersionTooLowError unless @bot.meets_version_requirement(1,13)
       raise RWBErrors::NotLoggedInError unless @bot.logged_in?
 
