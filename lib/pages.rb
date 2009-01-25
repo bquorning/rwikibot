@@ -26,11 +26,7 @@ module Pages
     
     # I used to have an exists method (page_exists), but I got rid of it in 2.0, but I'm bringing it back. 
     def exists?
-      if @missing
-        return false
-      else
-        return true
-      end
+      !@missing
     end
 
     # This will get only the content of the article. It is a modification of
