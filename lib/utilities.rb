@@ -4,11 +4,7 @@ module RWBUtilities
   def meets_version_requirement(maj, min)
     major, minor = @config['api_version'].to_s.split('.').collect{ |s| s.to_i }
 #    puts "#{major} > #{maj}"
-    if ( major > maj ) || ( (major == maj) && (minor >= min) )
-      return true
-    else 
-      return false
-    end
+    (major > maj) || ( (major == maj) && (minor >= min) )
   end # meets_version_requirement
 
   # Tests to see if a given page title is redirected to another page. Very Ruby.
